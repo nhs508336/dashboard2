@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>초월읍 주민 민원 플랫폼</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F1E6;--ink:#123D32;--card:#fff;--line:rgba(18,61,50,.14);--brand:#123D32;--onbrand:#F6F1E6;--gold:#D6A646;--ongold:#123D32;--mute:rgba(18,61,50,.7);--ok:#2f7d4f;--warn:#b3402a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c231d;--ink:#F6F1E6;--card:#143a30;--line:rgba(246,241,230,.18);--brand:#091a15;--mute:rgba(246,241,230,.72);--ok:#6fcf97;--warn:#ff9d85;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c231d;--ink:#F6F1E6;--card:#143a30;--line:rgba(246,241,230,.18);--brand:#091a15;--mute:rgba(246,241,230,.72);--ok:#6fcf97;--warn:#ff9d85;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
+body{background:var(--bg);color:var(--ink);font-family:"Nanum Gothic","Malgun Gothic",sans-serif;line-height:1.65}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--brand);z-index:20}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--brand);color:var(--onbrand)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px;flex-wrap:wrap}
+.brand{font-weight:800;letter-spacing:-.03em}
+.nav a{color:var(--onbrand);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:99px;opacity:.85}
+.nav a:hover{background:var(--gold);color:var(--ongold);opacity:1}
+.hero{background:var(--brand);color:var(--onbrand);padding:44px 0 36px}
+.hero h1{font-size:clamp(28px,5vw,46px);line-height:1.25;letter-spacing:-.04em;margin-bottom:12px}
+.hero h1 b{color:var(--gold)}
+.hero p{max-width:640px;opacity:.9}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:26px}
+.stat{background:rgba(246,241,230,.09);border-radius:14px;padding:16px}
+.stat small{display:block;opacity:.8;font-size:13px}
+.stat strong{font-size:30px;color:var(--gold)}
+.stat em{font-style:normal;font-size:12px;opacity:.7;display:block}
+section{padding:40px 0}
+h2{font-size:clamp(22px,3vw,30px);letter-spacing:-.04em;margin-bottom:6px}
+.sub{color:var(--mute);font-size:14px;margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.lbl{font-weight:800;margin:18px 0 8px;display:block}.lbl:first-child{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:transparent;color:var(--ink);padding:9px 14px;border-radius:99px;cursor:pointer;font:inherit;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--onbrand);border-color:var(--brand)}
+.chip .ck{color:var(--ok);font-weight:800}
+.chip[aria-pressed="true"] .ck{color:var(--gold)}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:12px;padding:12px;font:inherit;font-size:14px}
+textarea{resize:vertical;min-height:90px}
+.out textarea{min-height:300px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.btn{border:1px solid var(--line);background:transparent;color:var(--ink);padding:11px 16px;border-radius:12px;cursor:pointer;font:inherit;font-weight:800;font-size:14px;text-decoration:none;display:inline-flex;align-items:center}
+.btn.p{background:var(--gold);color:var(--ongold);border-color:var(--gold)}
+.btn.s{background:var(--brand);color:var(--onbrand);border-color:var(--brand)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.msg{font-size:13px;margin-top:8px;min-height:20px}
+.msg.err{color:var(--warn)}.msg.ok{color:var(--ok)}
+.warn{background:rgba(214,166,70,.16);border-left:4px solid var(--gold);padding:12px 14px;border-radius:10px;font-size:14px;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:center}
+th:first-child,td:first-child{text-align:left}
+td button{border:1px solid var(--line);background:transparent;color:var(--mute);border-radius:8px;width:38px;height:32px;cursor:pointer;font:inherit}
+td button.on{background:var(--ok);color:#fff;border-color:var(--ok)}
+.na{color:var(--mute);opacity:.5}
+.bar{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 4px}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .4s}
+ol.how{padding-left:20px}ol.how li{margin-bottom:8px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.step{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:14px}
+.tag{display:inline-block;font-size:12px;font-weight:800;padding:2px 10px;border-radius:99px;margin-top:6px}
+.tag.todo{background:var(--line)}.tag.ing{background:var(--gold);color:var(--ongold)}.tag.done{background:var(--ok);color:#fff}
+footer{background:var(--brand);color:var(--onbrand);padding:28px 0;font-size:13px;opacity:.95}
+details{margin-top:10px}summary{cursor:pointer;font-weight:800}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><span class="brand">초월읍 주민 민원 플랫폼</span>
+<nav><a href="#make">민원 만들기</a><a href="#track">내 접수 현황</a><a href="#plan">추진 단계</a><a href="#guide">안내</a></nav></div></header>
+
+<div class="hero"><div class="wrap">
+<h1>초월 발전소 현안과<br><b>초월읍 생활 개선</b>, 한 사람씩 정식 민원으로</h1>
+<p>안건과 기관을 고르고 내 상황 한 줄만 적으면 국민신문고에 붙여 넣을 민원 문안이 만들어집니다. 접수한 기관은 표시해 두어 중복 접수를 막습니다.</p>
+<div class="stats">
+<div class="stat"><small>내가 접수한 민원</small><strong id="sMine">0/12</strong><em>이 기기에만 저장됩니다</em></div>
+<div class="stat"><small>주민 참여 (공식 집계)</small><strong id="sP">집계 전</strong><em class="upd"></em></div>
+<div class="stat"><small>접수 민원 (공식 집계)</small><strong id="sM">집계 전</strong><em class="upd"></em></div>
+<div class="stat"><small>기관 답변 (공식 집계)</small><strong id="sR">집계 전</strong><em class="upd"></em></div>
+</div></div></div>
+
+<main class="wrap">
+<section id="make">
+<h2>민원 문안 만들기</h2>
+<p class="sub">① 안건 → ② 기관 → ③ 내 상황 한 줄 순서로 선택하세요.</p>
+<div class="grid2">
+<div class="card">
+<span class="lbl">① 안건</span><div class="chips" id="issues"></div>
+<span class="lbl">② 처리 기관</span><div class="chips" id="agencies"></div>
+<span class="lbl">③ 내 상황 한 줄 <small style="font-weight:400;color:var(--mute)">(필수)</small></span>
+<textarea id="line" maxlength="150" placeholder="예) 초등학생 자녀를 둔 가정이며, 출퇴근 시간마다 도로 정체로 통학 시간이 길어지고 있습니다."></textarea>
+<div class="msg" id="lineMsg"></div>
+<div class="warn" style="margin:12px 0 0">동·호수, 연락처, 실명 등 개인정보는 적지 마세요. 사실과 요청만 차분하게 적어 주세요.</div>
+</div>
+<div class="card out">
+<span class="lbl">제목</span><input type="text" id="title" readonly>
+<span class="lbl">내용</span><textarea id="body" readonly></textarea>
+<div class="btns">
+<button class="btn p" id="cTitle">제목 복사</button>
+<button class="btn p" id="cBody">내용 복사</button>
+<button class="btn" id="cAI">AI로 다듬기용 복사</button>
+</div>
+<div class="btns">
+<a class="btn s" href="https://www.epeople.go.kr" target="_blank" rel="noopener">국민신문고 열기 ↗</a>
+<button class="btn" id="mark">접수 완료로 표시</button>
+</div>
+<div class="msg" id="outMsg"></div>
+</div>
+</div>
+</section>
+
+<section id="track">
+<h2>내 접수 현황</h2>
+<p class="sub">같은 기관에 같은 안건은 한 번만 접수하세요. 반복하면 반복 민원으로 종결될 수 있습니다. 칸을 눌러 접수 여부를 직접 고칠 수도 있습니다.</p>
+<div class="card">
+<strong id="pTxt">0 / 12 접수</strong><div class="bar"><i id="pBar"></i></div>
+<div class="scroll"><table id="matrix"></table></div>
+<div class="btns"><button class="btn" id="share">이 페이지 공유하기</button><button class="btn" id="reset">내 기록 초기화</button></div>
+<div class="msg" id="trMsg"></div>
+</div>
+</section>
+
+<section id="plan">
+<h2>추진 단계</h2>
+<p class="sub">단계별 상태는 운영진이 갱신합니다.</p>
+<div class="steps" id="steps"></div>
+</section>
+
+<section id="guide">
+<h2>접수 안내</h2>
+<div class="card">
+<ol class="how">
+<li>국민신문고(epeople.go.kr) 또는 앱에 로그인하고 <b>민원신청</b>으로 들어갑니다.</li>
+<li><b>처리기관</b> 칸에서 위에서 고른 기관명을 검색해 선택합니다.</li>
+<li><b>제목 복사</b>, <b>내용 복사</b>로 붙여 넣습니다. 신청인 정보는 로그인 정보가 자동 입력됩니다.</li>
+<li>민원 유형은 일반민원, 공개 여부는 비공개를 권장합니다. 그대로 신청합니다.</li>
+<li>이 페이지로 돌아와 <b>접수 완료로 표시</b>를 누릅니다.</li>
+</ol>
+<details><summary>문장을 내 말투로 바꾸고 싶다면</summary>
+<p class="sub" style="margin-top:8px">문구가 똑같은 민원은 하나로 묶여 일괄 답변이 오는 경우가 많습니다. <b>AI로 다듬기용 복사</b>를 누르고 ChatGPT, Claude 같은 AI 앱에 붙여 넣으면, 숫자·기관명·요청 사항은 그대로 두고 표현만 바꿔 줍니다.</p></details>
+<details><summary>기관이 바뀐 경우 안내</summary>
+<p class="sub" style="margin-top:8px">2025년 10월 정부조직 개편으로 발전사업 인허가 등 에너지 정책 기능이 산업통상자원부에서 기후에너지환경부로 이관되었습니다. 그래서 이 페이지는 기후에너지환경부를 처리기관으로 안내합니다. 소관이 다르면 접수 기관이 소관 기관으로 이송합니다.</p></details>
+</div>
+</section>
+</main>
+
+<footer><div class="wrap">초월읍 주민 민원 플랫폼 · 주민 자율 운영 페이지이며 행정기관과 무관합니다. 문안은 요청과 질의 중심으로 작성되며, 확인되지 않은 사실을 단정하지 않습니다.</div></footer>
+
+<script>
+/* ===== 운영진이 수정하는 영역 =====
+   official 값에 숫자를 넣으면 상단 카드에 표시됩니다 (null이면 "집계 전").
+   steps 상태: todo(예정) / ing(진행중) / done(완료) */
+const CONFIG={
+  updated:null, // 예: "2026.11.04"
+  official:{participants:null,petitions:null,replies:null},
+  steps:[["주민 의견 수렴","ing"],["기관 민원 제출","ing"],["기관 협의","todo"],["공청회 준비","todo"],["최종 결과 공개","todo"]]
+};
+const AG={gj:"광주시",ch:"초월읍",gg:"경기도",mc:"기후에너지환경부",hg:"한강유역환경청",kp:"한국전력공사"};
+const ISSUES=[
+{id:"plant",name:"초월 발전소 환경영향·대체 부지",topic:"초월 발전소의 환경 영향 재검토 및 대체 부지 검토",ag:["gj","ch","gg","mc","hg","kp"],
+ asks:["대기·소음 등 환경 영향과 관련한 최신 조사·측정 결과의 공개, 그리고 재검토 실시 여부","대체 부지 검토 여부와 검토 계획(일정·방법·검토 주체)","주민 설명회·공청회 개최 계획과 주민 의견의 반영 방법"],
+ extra:{gj:"시가 보유한 관련 협의·허가 현황과 주민 의견 전달 현황",ch:"읍 차원에서 수렴한 주민 의견 현황과 상급 기관 전달 계획",gg:"도 차원의 관련 협의 현황",mc:"발전사업 관련 인허가 및 환경영향평가 진행 현황",hg:"환경영향평가 협의 내용과 주민 의견 반영 여부",kp:"해당 발전소와 연계된 송전·전력계통 관련 계획 중 공개 가능한 정보"}},
+{id:"traffic",name:"교통체증 개선",topic:"초월읍 출퇴근 시간 도로 정체 개선",ag:["gj","ch","gg"],
+ asks:["출퇴근 시간 정체 구간에 대한 실태조사 결과 공개","정체 해소를 위한 개선 계획과 추진 일정(신호체계·차로·우회도로 등)","개선 계획 수립 시 주민 의견을 반영하는 절차"]},
+{id:"infra",name:"생활 인프라 확충",topic:"초월읍 공원·체육시설·문화공간 등 생활 인프라 확충",ag:["gj","ch","gg"],
+ asks:["공원·체육시설·문화공간의 현황과 확충 계획","부지와 예산 확보 현황 및 추진 일정","주민이 직접 사업을 제안할 수 있는 방법(주민참여예산 등)"]}
+];
+const $=s=>document.querySelector(s);
+const mem={};
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return mem[k]??null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}};
+let done={};try{done=JSON.parse(store.get("chowol.done")||"{}")||{}}catch(e){done={}}
+let cur={issue:ISSUES[0].id,agency:ISSUES[0].ag[0]};
+const issue=()=>ISSUES.find(i=>i.id===cur.issue);
+const key=(i,a)=>i+"|"+a;
+const total=ISSUES.reduce((n,i)=>n+i.ag.length,0);
+const save=()=>store.set("chowol.done",JSON.stringify(done));
+function flash(el,t,c){el.textContent=t;el.className="msg "+(c||"");clearTimeout(el._t);el._t=setTimeout(()=>{el.textContent="";el.className="msg"},3500)}
+
+function buildText(){
+  const is=issue(),ag=AG[cur.agency],line=$("#line").value.trim();
+  const asks=is.asks.slice();if(is.extra&&is.extra[cur.agency])asks.push(is.extra[cur.agency]);
+  const title="[초월읍민원] "+is.topic+" 관련 요청 ("+ag+")";
+  const body=["1. 현황","- 초월읍 주민으로서 「"+is.topic+"」과 관련하여 아래와 같이 문의·요청드립니다.","- 신청인 세대 상황 : "+line,"","2. 요청 사항",...asks.map((a,i)=>"("+(i+1)+") "+a),"","3. 회신 요청","- 위 사항에 대한 검토 결과와 근거(관련 계획·일정 포함)를 서면으로 회신해 주시기 바랍니다.","- 귀 기관의 소관이 아닌 경우 소관 기관으로 이송하고 그 사실을 알려 주시기 바랍니다."].join("\n");
+  return{title,body};
+}
+function lineCheck(){
+  const v=$("#line").value.trim();
+  if(v.length<10)return"내 상황을 10자 이상 적어 주세요.";
+  if(/\d{2,4}\s*동|\d{2,4}\s*호|01[016789][-\s]?\d{3,4}[-\s]?\d{4}|\d{2,3}-\d{3,4}-\d{4}/.test(v))return"동·호수나 연락처로 보이는 내용이 있습니다. 지워 주세요.";
+  return"";
+}
+function refresh(){
+  const err=lineCheck(),t=buildText();
+  $("#lineMsg").textContent=$("#line").value.trim()?err:"";$("#lineMsg").className="msg err";
+  ["cTitle","cBody","cAI","mark"].forEach(id=>$("#"+id).disabled=!!err&&id!=="mark");
+  $("#title").value=t.title;$("#body").value=err?"(내 상황 한 줄을 적으면 문안이 완성됩니다)":t.body;
+  $("#mark").textContent=done[key(cur.issue,cur.agency)]?"접수 완료 표시 해제":"접수 완료로 표시";
+}
+function renderChips(){
+  const ic=$("#issues");ic.innerHTML="";
+  ISSUES.forEach(i=>{const b=document.createElement("button");b.className="chip";b.textContent=i.name;b.setAttribute("aria-pressed",i.id===cur.issue);
+    b.onclick=()=>{cur.issue=i.id;if(!i.ag.includes(cur.agency))cur.agency=i.ag[0];renderChips();refresh()};ic.appendChild(b)});
+  const ac=$("#agencies");ac.innerHTML="";
+  issue().ag.forEach(a=>{const b=document.createElement("button");b.className="chip";b.setAttribute("aria-pressed",a===cur.agency);
+    b.textContent=AG[a]+(done[key(cur.issue,a)]?" ":"");if(done[key(cur.issue,a)]){const s=document.createElement("span");s.className="ck";s.textContent="✓";b.appendChild(s)}
+    b.onclick=()=>{cur.agency=a;renderChips();refresh()};ac.appendChild(b)});
+}
+function renderMatrix(){
+  const m=$("#matrix");m.innerHTML="";
+  const th=m.createTHead().insertRow();th.insertCell().outerHTML="<th>안건</th>";
+  Object.keys(AG).forEach(a=>{const c=document.createElement("th");c.textContent=AG[a];th.appendChild(c)});
+  const tb=m.createTBody();
+  ISSUES.forEach(i=>{const r=tb.insertRow();r.insertCell().textContent=i.name;
+    Object.keys(AG).forEach(a=>{const c=r.insertCell();
+      if(!i.ag.includes(a)){c.className="na";c.textContent="–";return}
+      const b=document.createElement("button");b.textContent=done[key(i.id,a)]?"✓":"○";b.className=done[key(i.id,a)]?"on":"";
+      b.setAttribute("aria-label",i.name+" "+AG[a]);
+      b.onclick=()=>toggle(i.id,a);c.appendChild(b)})});
+  const n=Object.keys(done).length;
+  $("#pTxt").textContent=n+" / "+total+" 접수";$("#pBar").style.width=(n/total*100)+"%";$("#sMine").textContent=n+"/"+total;
+}
+function toggle(i,a){const k=key(i,a);if(done[k])delete done[k];else done[k]=Date.now();save();renderChips();renderMatrix();refresh()}
+async function copy(text,el,label){
+  let ok=false;
+  try{await navigator.clipboard.writeText(text);ok=true}catch(e){
+    try{const t=document.createElement("textarea");t.value=text;t.style.cssText="position:fixed;opacity:0";document.body.appendChild(t);t.select();ok=document.execCommand("copy");t.remove()}catch(e2){}}
+  flash(el,ok?label+" 복사 완료. 국민신문고에 붙여 넣으세요.":"복사가 막혀 있습니다. 위 칸을 길게 눌러 직접 복사해 주세요.",ok?"ok":"err");
+}
+$("#line").addEventListener("input",()=>{store.set("chowol.line",$("#line").value);refresh()});
+$("#cTitle").onclick=()=>copy(buildText().title,$("#outMsg"),"제목");
+$("#cBody").onclick=()=>copy(buildText().body,$("#outMsg"),"내용");
+$("#cAI").onclick=()=>{const t=buildText();copy("아래 민원 문안을 내 말투로 다듬어 주세요. 숫자·날짜·기관명·요청 사항은 그대로 두고, 없는 사실은 지어내지 마세요. 표현과 문장 순서만 바꾸고, 비난이나 감정적인 표현은 넣지 마세요.\n\n[제목]\n"+t.title+"\n\n[내용]\n"+t.body,$("#outMsg"),"AI 지시문과 문안")};
+$("#mark").onclick=()=>{const k=key(cur.issue,cur.agency);if(done[k]){toggle(cur.issue,cur.agency);flash($("#outMsg"),"표시를 해제했습니다.")}else{toggle(cur.issue,cur.agency);flash($("#outMsg"),AG[cur.agency]+" 접수 완료로 표시했습니다.","ok")}};
+$("#share").onclick=async()=>{const u=location.href;
+  try{if(navigator.share){await navigator.share({title:document.title,url:u});return}}catch(e){}
+  copy(u,$("#trMsg"),"페이지 주소")};
+let rs=false;$("#reset").onclick=()=>{if(!rs){rs=true;$("#reset").textContent="한 번 더 누르면 초기화";setTimeout(()=>{rs=false;$("#reset").textContent="내 기록 초기화"},3000);return}
+  done={};save();rs=false;$("#reset").textContent="내 기록 초기화";renderChips();renderMatrix();refresh();flash($("#trMsg"),"초기화했습니다.","ok")};
+
+const o=CONFIG.official,fmt=v=>v==null?"집계 전":Number(v).toLocaleString("ko-KR");
+$("#sP").textContent=fmt(o.participants);$("#sM").textContent=fmt(o.petitions);$("#sR").textContent=fmt(o.replies);
+document.querySelectorAll(".upd").forEach(e=>e.textContent=CONFIG.updated?CONFIG.updated+" 기준":"운영진 집계 후 표시");
+const L={todo:"예정",ing:"진행중",done:"완료"};
+$("#steps").innerHTML=CONFIG.steps.map((s,i)=>'<div class="step"><small>STEP '+(i+1)+'</small><div><b>'+s[0]+'</b></div><span class="tag '+s[1]+'">'+L[s[1]]+'</span></div>').join("");
+$("#line").value=store.get("chowol.line")||"";
+renderChips();renderMatrix();refresh();
+</script>
+</body>
+</html>
